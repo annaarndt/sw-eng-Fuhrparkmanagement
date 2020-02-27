@@ -1,0 +1,55 @@
+﻿@model Fuhrparkmanagement.Fahrzeugtyp
+
+@{
+    ViewBag.Title = "Modell löschen";
+}
+@if (ViewBag.Admin == true)
+{
+    <h2>Löschen</h2>
+
+    <h3>Sind Sie sicher, dass Sie dieses Fahrzeug löschen möchten?</h3>
+    <div>
+        <h4>Fahrzeugtyp</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Modell)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Modell)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Leistung)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Leistung)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Sitzplatzanzahl)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Sitzplatzanzahl)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Löschen" class="btn btn-default" /> |
+                @Html.ActionLink("Zurück zur Übersicht", "Index")
+            </div>
+        }
+    </div>
+}
+else
+{ <h3>Sie sind nicht dazu befugt, Modelle zu löschen, da Sie keine Administratorenrechte besitzen.</h3>
+    <td>@Html.ActionLink("Zurück zur Übersicht", "Index")</td>
+}

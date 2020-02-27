@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+    <div class="jumbotron">
+            <img src="https://media.daimler.com/marsMediaSite/scr/cache/41449391v1tv3/D532120-Driven-by-EQ-Stuttgart-2018.jpg" height=" 125"/>
+            <img src="https://www.mercedes-benz.com/de/fahrzeuge/personenwagen/c-klasse/die-neuen-c-klasse-modelle-2019/_jcr_content/root/slider_0/sliderchilditems/slideritem/image/MQ3-0-tabletImage-20190226141326/01-mercedes-benz-c-class-models-2018-1700x720-2.jpeg" height="125" />
+            <img src="https://media.daimler.com/marsMediaSite/scr/cache/30451215v1tv3/D463399-PFV-die-neue-S-Klasse-Cabriolet-und-S-Klasse-Coupe-Kalifornien-2017.jpg" height="125" />
+            <img src="https://media.daimler.com/marsMediaSite/scr/cache/41449306v1tv3/D532063-FV-EQ-Stuttgart-2018.jpg" height="125" />    
+        <h1>Fuhrparkmanagement</h1>
+            <p class="lead">Willkommen im Fuhrparkmanagementsystem des Bereiches Lieferantenmanagement (LM).</p>
+            @if (ViewBag.Login == false)
+            {
+                <p><a href="http://localhost:50062/Login" class="btn btn-primary btn-lg">Einloggen &raquo;</a></p>
+            }
+    </div>
+ @if (ViewBag.Login == true)
+ {
+<div class="row">
+    <div class="col-md-4">
+        <h2>Buchungen verwalten</h2>
+        @if (ViewBag.Admin == true)
+        {
+            <p>@Html.ActionLink("Buchung anlegen", "Create", "Buchungs")</p>
+            <p>@Html.ActionLink("Alle Buchungen anzeigen", "Index", "Buchungs")</p>
+        }
+        else
+     if (ViewBag.Buchender == true)
+        {
+            <p>@Html.ActionLink("Buchung anlegen", "Create", "Buchungs")</p>
+            <p>@Html.ActionLink("Meine Buchungen anzeigen", "Index", "Buchungs")</p>
+        }
+
+        Sofern Sie einen Führerschein besitzen, können Sie einen Antrag zur Buchung eines Bereichsfahrzeugs stellen.
+        Bei Fragen wenden Sie sich bitte an unseren Support.
+        <p><a class="btn btn-default" href="http://localhost:50062/Home/Contact">Kontakt &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Aktueller Fuhrpark</h2>
+        <p>@Html.ActionLink("Fuhrpark anzeigen", "Index", "Fahrzeugs")</p>
+        @if (ViewBag.Admin == true)
+        {
+            <p>@Html.ActionLink("Fahrzeug hinzufügen", "Create", "Fahrzeugs")</p>
+        }
+        Sie können Sich gerne unseren aktuellen Fuhrpark anzeigen lassen. 
+    </div>
+    <div class="col-md-4">
+        <h2>Fahrzeugmodelle</h2>
+        <p>@Html.ActionLink("Modelle anzeigen", "Index", "Fahrzeugtyps")</p>
+        @if (ViewBag.Admin == true)
+        {
+            <p>@Html.ActionLink("Modell hinzufügen", "Create", "Fahrzeugtyps")</p>
+        }
+        Hier erhalten Sie eine Übersicht über alle Fahrzeugmodelle des Fuhrparks.
+    </div>
+    @if (ViewBag.Admin == true)
+    {
+        <div class="col-md-4">
+            <h2>Verwaltung der Mitarbeiter</h2>
+            <p>@Html.ActionLink("Mitarbeiter anzeigen", "Index", "Mitarbeiters")</p>
+            <p>@Html.ActionLink("Mitarbeiter hinzufügen", "Create", "Mitarbeiters")</p>
+
+        </div>
+    }
+</div>
+ }

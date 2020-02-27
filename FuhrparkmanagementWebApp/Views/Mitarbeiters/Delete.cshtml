@@ -1,0 +1,78 @@
+﻿@model Fuhrparkmanagement.Mitarbeiter
+
+@{
+    ViewBag.Title = "Daten löschen";
+}
+@if (ViewBag.Admin == true)
+{
+    <h2>Löschen</h2>
+
+    <h3>Sind Sie sicher, dass Sie diese Daten löschen möchten?</h3>
+    <div>
+        <h4>Mitarbeiter</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Personalnummer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Personalnummer)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Vorname)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vorname)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Führerschein)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Führerschein)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Führerscheinnummer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Führerscheinnummer)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.IstAdmin)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IstAdmin)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Löschen" class="btn btn-default" /> |
+                @Html.ActionLink("Zurück zur Übersicht", "Index")
+            </div>
+        }
+    </div>
+}
+else
+{ <h3>Sie sind nicht dazu befugt, Daten zu löschen, da Sie keine Administratorenrechte besitzen.</h3>
+  <td>@Html.ActionLink("Zurück zur Übersicht", "Index")</td>
+}

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Fuhrparkmanagement.Mitarbeiter>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Personalnummer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vorname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Führerschein)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Führerscheinnummer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IstAdmin)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Personalnummer)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Vorname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Führerschein)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Führerscheinnummer)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IstAdmin)
+    </td>
+    <td>
+        @Html.ActionLink("Einloggen", "Select", new { id = item.Id })
+    </td>
+</tr>
+}
+</table>
+<div>
+    @Html.ActionLink("Zurück zur Startseite", "Index", "Home")
+</div>

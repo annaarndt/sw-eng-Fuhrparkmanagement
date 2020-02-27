@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Fuhrparkmanagement.Mitarbeiter>
+@if (ViewBag.Admin == true)
+{
+    {
+        ViewBag.Title = "Übersicht aller Mitarbeiter";
+    }
+
+    <h2>Index</h2>
+
+
+    <p>
+        @Html.ActionLink("Mitarbeiter hinzufügen", "Create")
+
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Personalnummer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vorname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Führerschein)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Führerscheinnummer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IstAdmin)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Personalnummer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vorname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Führerschein)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Führerscheinnummer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IstAdmin)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Bearbeiten", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Löschen", "Delete", new { id = item.Id })
+
+                </td>
+            </tr>
+        }
+
+    </table>
+}
+else
+{ <h3>Sie haben keine Zugriffsrechte für diese Ansicht.</h3>
+    <td>@Html.ActionLink("Zurück zur Übersicht", "Index")</td>
+}

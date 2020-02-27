@@ -1,0 +1,79 @@
+﻿@model Fuhrparkmanagement.Buchung
+
+@{
+    ViewBag.Title = "Buchung löschen";
+}
+@if (ViewBag.Admin == true || ViewBag.Buchender == true)
+{
+    <h2>Löschen</h2>
+
+    <h3>Sind Sie sicher, dass Sie diese Buchung löschen möchten?</h3>
+    <div>
+        <h4>Buchung</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Zweck)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Zweck)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Start)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Start)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Ende)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Ende)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Kilometerplan)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Kilometerplan)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AngelegtVon.Personalnummer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AngelegtVon.Personalnummer)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.MitFahrzeug.Kennzeichen)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MitFahrzeug.Kennzeichen)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Löschen" class="btn btn-default" /> |
+                @Html.ActionLink("Zurück zur Übersicht", "Index")
+            </div>
+        }
+    </div>
+}
+else
+{ <h3>Sie sind nicht dazu befugt, Buchungen zu löschen.</h3>
+    <td>@Html.ActionLink("Zurück zur Übersicht", "Index")</td>
+}

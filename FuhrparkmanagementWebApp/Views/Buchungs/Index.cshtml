@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Fuhrparkmanagement.Buchung>
+
+@{
+    ViewBag.Title = "Buchungsübersicht";
+}
+
+<h2>Index</h2>
+@if (ViewBag.Admin == true)
+{
+    <p>
+        @Html.ActionLink("Buchung anlegen", "Create")
+    </p>
+}
+else 
+if (ViewBag.Buchender == true)
+{
+    <p>
+        @Html.ActionLink("Buchung anlegen", "Create")
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Zweck)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Start)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ende)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Kilometerplan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AngelegtVon.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MitFahrzeug.Kennzeichen)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    @if (object.ReferenceEquals(item.AngelegtVon, ViewBag.Mitarbeiter))
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Zweck)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ende)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kilometerplan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AngelegtVon.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MitFahrzeug.Kennzeichen)
+        </td>
+
+        <td>
+            @Html.ActionLink("Bearbeiten bzw. Fahrzeug hinzufügen", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Löschen", "Delete", new { id = item.Id })
+        </td>
+        }
+        else
+            if (ViewBag.Admin == true)
+        {
+        <td>
+            @Html.DisplayFor(modelItem => item.Zweck)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Start)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ende)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Kilometerplan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AngelegtVon.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MitFahrzeug.Kennzeichen)
+        </td>
+
+        <td>
+            @Html.ActionLink("Bearbeiten bzw. Fahrzeug hinzufügen", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Löschen", "Delete", new { id = item.Id })
+        </td>
+         }
+</tr>
+     }
+</table>

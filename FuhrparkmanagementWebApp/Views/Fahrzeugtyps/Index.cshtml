@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Fuhrparkmanagement.Fahrzeugtyp>
+
+@{
+    ViewBag.Title = "Modellübersicht";
+}
+
+<h2>Index</h2>
+@if (ViewBag.Admin == true)
+{
+<p>
+    @Html.ActionLink("Modell hinzufügen", "Create")
+</p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Modell)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Leistung)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sitzplatzanzahl)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Modell)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Leistung)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Sitzplatzanzahl)
+    </td>
+    @if (ViewBag.Admin == true)
+    { <td>
+            @Html.ActionLink("Bearbeiten", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Löschen", "Delete", new { id = item.Id })
+      </td>
+    }
+</tr>
+}
+
+</table>
