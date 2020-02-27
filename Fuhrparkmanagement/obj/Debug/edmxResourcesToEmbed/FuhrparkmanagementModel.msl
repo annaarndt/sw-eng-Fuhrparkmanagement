@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FuhrparkmanagementModelStoreContainer" CdmEntityContainer="FuhrparkmanagementModelContainer">
+    <EntitySetMapping Name="Fahrzeugtyp">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Fahrzeugtyp)">
+        <MappingFragment StoreEntitySet="Fahrzeugtyp">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Modell" ColumnName="Modell" />
+          <ScalarProperty Name="Leistung" ColumnName="Leistung" />
+          <ScalarProperty Name="Sitzplatzanzahl" ColumnName="Sitzplatzanzahl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fahrzeug">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Fahrzeug)">
+        <MappingFragment StoreEntitySet="Fahrzeug">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Kennzeichen" ColumnName="Kennzeichen" />
+          <ScalarProperty Name="Farbe" ColumnName="Farbe" />
+          <ScalarProperty Name="Kilometerstand" ColumnName="Kilometerstand" />
+          <ScalarProperty Name="FahrzeugtypId" ColumnName="FahrzeugtypId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mitarbeiter">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Mitarbeiter)">
+        <MappingFragment StoreEntitySet="Mitarbeiter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Personalnummer" ColumnName="Personalnummer" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="Führerschein" ColumnName="Führerschein" />
+          <ScalarProperty Name="Führerscheinnummer" ColumnName="Führerscheinnummer" />
+          <ScalarProperty Name="IstAdmin" ColumnName="IstAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Buchung">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Buchung)">
+        <MappingFragment StoreEntitySet="Buchung">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Zweck" ColumnName="Zweck" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Ende" ColumnName="Ende" />
+          <ScalarProperty Name="Kilometerplan" ColumnName="Kilometerplan" />
+          <ScalarProperty Name="MitarbeiterId" ColumnName="MitarbeiterId" />
+          <ScalarProperty Name="FahrzeugId" ColumnName="FahrzeugId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="HatHauptnutzer" TypeName="FuhrparkmanagementModel.HatHauptnutzer" StoreEntitySet="Mitarbeiter">
+      <EndProperty Name="Fahrzeug">
+        <ScalarProperty Name="Id" ColumnName="Hauptnutzerfahrzeug_Id" />
+      </EndProperty>
+      <EndProperty Name="Mitarbeiter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Hauptnutzerfahrzeug_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e1f61ee1d706443b92fcf9678423dfde" Name="Diagram1" ZoomLevel="86" >
+        <EntityTypeShape EntityType="FuhrparkmanagementModel.Fahrzeugtyp" Width="1.5" PointX="1.625" PointY="0.625" />
+        <EntityTypeShape EntityType="FuhrparkmanagementModel.Fahrzeug" Width="1.625" PointX="3.5" PointY="0.5" />
+        <AssociationConnector Association="FuhrparkmanagementModel.IstVomTyp" />
+        <EntityTypeShape EntityType="FuhrparkmanagementModel.Mitarbeiter" Width="2" PointX="7.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FuhrparkmanagementModel.Buchung" Width="1.5" PointX="5.625" PointY="2" />
+        <AssociationConnector Association="FuhrparkmanagementModel.HatHauptnutzer" />
+        <AssociationConnector Association="FuhrparkmanagementModel.LegtBuchungAn" />
+        <AssociationConnector Association="FuhrparkmanagementModel.BuchungMitFahrzeug" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

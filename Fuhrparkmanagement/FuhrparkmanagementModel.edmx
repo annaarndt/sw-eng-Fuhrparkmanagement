@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FuhrparkmanagementModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="FuhrparkmanagementModelStoreContainer">
+    <EntitySet Name="Fahrzeugtyp" EntityType="FuhrparkmanagementModel.Store.Fahrzeugtyp" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Fahrzeug" EntityType="FuhrparkmanagementModel.Store.Fahrzeug" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Mitarbeiter" EntityType="FuhrparkmanagementModel.Store.Mitarbeiter" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Buchung" EntityType="FuhrparkmanagementModel.Store.Buchung" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="IstVomTyp" Association="FuhrparkmanagementModel.Store.IstVomTyp">
+      <End Role="Fahrzeugtyp" EntitySet="Fahrzeugtyp" />
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+    </AssociationSet>
+    <AssociationSet Name="HatHauptnutzer" Association="FuhrparkmanagementModel.Store.HatHauptnutzer">
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+      <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+    </AssociationSet>
+    <AssociationSet Name="LegtBuchungAn" Association="FuhrparkmanagementModel.Store.LegtBuchungAn">
+      <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+      <End Role="Buchung" EntitySet="Buchung" />
+    </AssociationSet>
+    <AssociationSet Name="BuchungMitFahrzeug" Association="FuhrparkmanagementModel.Store.BuchungMitFahrzeug">
+      <End Role="Buchung" EntitySet="Buchung" />
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Fahrzeugtyp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Modell" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Leistung" Type="int" Nullable="false" />
+    <Property Name="Sitzplatzanzahl" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Fahrzeug">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Kennzeichen" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Farbe" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Kilometerstand" Type="int" Nullable="false" />
+    <Property Name="FahrzeugtypId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Mitarbeiter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Personalnummer" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Führerschein" Type="bit" Nullable="false" />
+    <Property Name="Führerscheinnummer" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="IstAdmin" Type="bit" Nullable="false" />
+    <Property Name="Hauptnutzerfahrzeug_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Buchung">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Zweck" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Start" Type="datetime" Nullable="false" />
+    <Property Name="Ende" Type="datetime" Nullable="false" />
+    <Property Name="Kilometerplan" Type="int" Nullable="false" />
+    <Property Name="MitarbeiterId" Type="int" Nullable="false" />
+    <Property Name="FahrzeugId" Type="int" Nullable="true" />
+  </EntityType>
+  <Association Name="IstVomTyp">
+    <End Role="Fahrzeugtyp" Type="FuhrparkmanagementModel.Store.Fahrzeugtyp" Multiplicity="1" />
+    <End Role="Fahrzeug" Type="FuhrparkmanagementModel.Store.Fahrzeug" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fahrzeugtyp">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fahrzeug">
+        <PropertyRef Name="FahrzeugtypId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HatHauptnutzer">
+    <End Role="Fahrzeug" Type="FuhrparkmanagementModel.Store.Fahrzeug" Multiplicity="0..1" />
+    <End Role="Mitarbeiter" Type="FuhrparkmanagementModel.Store.Mitarbeiter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fahrzeug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Mitarbeiter">
+        <PropertyRef Name="Hauptnutzerfahrzeug_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LegtBuchungAn">
+    <End Role="Mitarbeiter" Type="FuhrparkmanagementModel.Store.Mitarbeiter" Multiplicity="1" />
+    <End Role="Buchung" Type="FuhrparkmanagementModel.Store.Buchung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mitarbeiter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Buchung">
+        <PropertyRef Name="MitarbeiterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BuchungMitFahrzeug">
+    <End Role="Buchung" Type="FuhrparkmanagementModel.Store.Buchung" Multiplicity="*" />
+    <End Role="Fahrzeug" Type="FuhrparkmanagementModel.Store.Fahrzeug" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Fahrzeug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Buchung">
+        <PropertyRef Name="FahrzeugId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FuhrparkmanagementModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="FuhrparkmanagementModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fahrzeugtyp" EntityType="FuhrparkmanagementModel.Fahrzeugtyp" />
+          <EntitySet Name="Fahrzeug" EntityType="FuhrparkmanagementModel.Fahrzeug" />
+          <AssociationSet Name="IstVomTyp" Association="FuhrparkmanagementModel.IstVomTyp">
+            <End Role="Fahrzeugtyp" EntitySet="Fahrzeugtyp" />
+            <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+          </AssociationSet>
+          <EntitySet Name="Mitarbeiter" EntityType="FuhrparkmanagementModel.Mitarbeiter" />
+          <EntitySet Name="Buchung" EntityType="FuhrparkmanagementModel.Buchung" />
+          <AssociationSet Name="HatHauptnutzer" Association="FuhrparkmanagementModel.HatHauptnutzer">
+            <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+            <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+          </AssociationSet>
+          <AssociationSet Name="LegtBuchungAn" Association="FuhrparkmanagementModel.LegtBuchungAn">
+            <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+            <End Role="Buchung" EntitySet="Buchung" />
+          </AssociationSet>
+          <AssociationSet Name="BuchungMitFahrzeug" Association="FuhrparkmanagementModel.BuchungMitFahrzeug">
+            <End Role="Buchung" EntitySet="Buchung" />
+            <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Fahrzeugtyp">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Modell" Type="String" Nullable="false" />
+          <Property Name="Leistung" Type="Int32" Nullable="false" />
+          <Property Name="Sitzplatzanzahl" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fahrzeug" Relationship="FuhrparkmanagementModel.IstVomTyp" FromRole="Fahrzeugtyp" ToRole="Fahrzeug" />
+        </EntityType>
+        <EntityType Name="Fahrzeug">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kennzeichen" Type="String" Nullable="false" />
+          <Property Name="Farbe" Type="String" Nullable="false" />
+          <Property Name="Kilometerstand" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="IstVomTyp" Relationship="FuhrparkmanagementModel.IstVomTyp" FromRole="Fahrzeug" ToRole="Fahrzeugtyp" />
+          <Property Name="FahrzeugtypId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Hauptnutzer" Relationship="FuhrparkmanagementModel.HatHauptnutzer" FromRole="Fahrzeug" ToRole="Mitarbeiter" />
+          <NavigationProperty Name="InBuchungEnthalten" Relationship="FuhrparkmanagementModel.BuchungMitFahrzeug" FromRole="Fahrzeug" ToRole="Buchung" />
+        </EntityType>
+        <Association Name="IstVomTyp">
+          <End Type="FuhrparkmanagementModel.Fahrzeugtyp" Role="Fahrzeugtyp" Multiplicity="1" />
+          <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fahrzeugtyp">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fahrzeug">
+              <PropertyRef Name="FahrzeugtypId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Mitarbeiter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Personalnummer" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Vorname" Type="String" Nullable="false" />
+          <Property Name="Führerschein" Type="Boolean" Nullable="false" />
+          <Property Name="Führerscheinnummer" Type="String" Nullable="true" />
+          <NavigationProperty Name="Hauptnutzerfahrzeug" Relationship="FuhrparkmanagementModel.HatHauptnutzer" FromRole="Mitarbeiter" ToRole="Fahrzeug" />
+          <NavigationProperty Name="LegtBuchungAn" Relationship="FuhrparkmanagementModel.LegtBuchungAn" FromRole="Mitarbeiter" ToRole="Buchung" />
+          <Property Name="IstAdmin" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Buchung">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Zweck" Type="String" Nullable="false" />
+          <Property Name="Start" Type="DateTime" Nullable="false" />
+          <Property Name="Ende" Type="DateTime" Nullable="false" />
+          <Property Name="Kilometerplan" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AngelegtVon" Relationship="FuhrparkmanagementModel.LegtBuchungAn" FromRole="Buchung" ToRole="Mitarbeiter" />
+          <Property Name="MitarbeiterId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MitFahrzeug" Relationship="FuhrparkmanagementModel.BuchungMitFahrzeug" FromRole="Buchung" ToRole="Fahrzeug" />
+          <Property Name="FahrzeugId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <Association Name="HatHauptnutzer">
+          <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="0..1" />
+          <End Type="FuhrparkmanagementModel.Mitarbeiter" Role="Mitarbeiter" Multiplicity="0..1" />
+        </Association>
+        <Association Name="LegtBuchungAn">
+          <End Type="FuhrparkmanagementModel.Mitarbeiter" Role="Mitarbeiter" Multiplicity="1" />
+          <End Type="FuhrparkmanagementModel.Buchung" Role="Buchung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mitarbeiter">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Buchung">
+              <PropertyRef Name="MitarbeiterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="BuchungMitFahrzeug">
+          <End Type="FuhrparkmanagementModel.Buchung" Role="Buchung" Multiplicity="*" />
+          <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Fahrzeug">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Buchung">
+              <PropertyRef Name="FahrzeugId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FuhrparkmanagementModelStoreContainer" CdmEntityContainer="FuhrparkmanagementModelContainer">
+    <EntitySetMapping Name="Fahrzeugtyp">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Fahrzeugtyp)">
+        <MappingFragment StoreEntitySet="Fahrzeugtyp">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Modell" ColumnName="Modell" />
+          <ScalarProperty Name="Leistung" ColumnName="Leistung" />
+          <ScalarProperty Name="Sitzplatzanzahl" ColumnName="Sitzplatzanzahl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Fahrzeug">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Fahrzeug)">
+        <MappingFragment StoreEntitySet="Fahrzeug">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Kennzeichen" ColumnName="Kennzeichen" />
+          <ScalarProperty Name="Farbe" ColumnName="Farbe" />
+          <ScalarProperty Name="Kilometerstand" ColumnName="Kilometerstand" />
+          <ScalarProperty Name="FahrzeugtypId" ColumnName="FahrzeugtypId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mitarbeiter">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Mitarbeiter)">
+        <MappingFragment StoreEntitySet="Mitarbeiter">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Personalnummer" ColumnName="Personalnummer" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="Führerschein" ColumnName="Führerschein" />
+          <ScalarProperty Name="Führerscheinnummer" ColumnName="Führerscheinnummer" />
+          <ScalarProperty Name="IstAdmin" ColumnName="IstAdmin" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Buchung">
+      <EntityTypeMapping TypeName="IsTypeOf(FuhrparkmanagementModel.Buchung)">
+        <MappingFragment StoreEntitySet="Buchung">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Zweck" ColumnName="Zweck" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Ende" ColumnName="Ende" />
+          <ScalarProperty Name="Kilometerplan" ColumnName="Kilometerplan" />
+          <ScalarProperty Name="MitarbeiterId" ColumnName="MitarbeiterId" />
+          <ScalarProperty Name="FahrzeugId" ColumnName="FahrzeugId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="HatHauptnutzer" TypeName="FuhrparkmanagementModel.HatHauptnutzer" StoreEntitySet="Mitarbeiter">
+      <EndProperty Name="Fahrzeug">
+        <ScalarProperty Name="Id" ColumnName="Hauptnutzerfahrzeug_Id" />
+      </EndProperty>
+      <EndProperty Name="Mitarbeiter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Hauptnutzerfahrzeug_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

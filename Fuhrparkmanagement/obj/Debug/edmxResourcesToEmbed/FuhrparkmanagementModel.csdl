@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FuhrparkmanagementModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="FuhrparkmanagementModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Fahrzeugtyp" EntityType="FuhrparkmanagementModel.Fahrzeugtyp" />
+    <EntitySet Name="Fahrzeug" EntityType="FuhrparkmanagementModel.Fahrzeug" />
+    <AssociationSet Name="IstVomTyp" Association="FuhrparkmanagementModel.IstVomTyp">
+      <End Role="Fahrzeugtyp" EntitySet="Fahrzeugtyp" />
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+    </AssociationSet>
+    <EntitySet Name="Mitarbeiter" EntityType="FuhrparkmanagementModel.Mitarbeiter" />
+    <EntitySet Name="Buchung" EntityType="FuhrparkmanagementModel.Buchung" />
+    <AssociationSet Name="HatHauptnutzer" Association="FuhrparkmanagementModel.HatHauptnutzer">
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+      <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+    </AssociationSet>
+    <AssociationSet Name="LegtBuchungAn" Association="FuhrparkmanagementModel.LegtBuchungAn">
+      <End Role="Mitarbeiter" EntitySet="Mitarbeiter" />
+      <End Role="Buchung" EntitySet="Buchung" />
+    </AssociationSet>
+    <AssociationSet Name="BuchungMitFahrzeug" Association="FuhrparkmanagementModel.BuchungMitFahrzeug">
+      <End Role="Buchung" EntitySet="Buchung" />
+      <End Role="Fahrzeug" EntitySet="Fahrzeug" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Fahrzeugtyp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Modell" Type="String" Nullable="false" />
+    <Property Name="Leistung" Type="Int32" Nullable="false" />
+    <Property Name="Sitzplatzanzahl" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Fahrzeug" Relationship="FuhrparkmanagementModel.IstVomTyp" FromRole="Fahrzeugtyp" ToRole="Fahrzeug" />
+  </EntityType>
+  <EntityType Name="Fahrzeug">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Kennzeichen" Type="String" Nullable="false" />
+    <Property Name="Farbe" Type="String" Nullable="false" />
+    <Property Name="Kilometerstand" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="IstVomTyp" Relationship="FuhrparkmanagementModel.IstVomTyp" FromRole="Fahrzeug" ToRole="Fahrzeugtyp" />
+    <Property Name="FahrzeugtypId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Hauptnutzer" Relationship="FuhrparkmanagementModel.HatHauptnutzer" FromRole="Fahrzeug" ToRole="Mitarbeiter" />
+    <NavigationProperty Name="InBuchungEnthalten" Relationship="FuhrparkmanagementModel.BuchungMitFahrzeug" FromRole="Fahrzeug" ToRole="Buchung" />
+  </EntityType>
+  <Association Name="IstVomTyp">
+    <End Type="FuhrparkmanagementModel.Fahrzeugtyp" Role="Fahrzeugtyp" Multiplicity="1" />
+    <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fahrzeugtyp">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fahrzeug">
+        <PropertyRef Name="FahrzeugtypId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Mitarbeiter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Personalnummer" Type="String" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Vorname" Type="String" Nullable="false" />
+    <Property Name="Führerschein" Type="Boolean" Nullable="false" />
+    <Property Name="Führerscheinnummer" Type="String" Nullable="true" />
+    <NavigationProperty Name="Hauptnutzerfahrzeug" Relationship="FuhrparkmanagementModel.HatHauptnutzer" FromRole="Mitarbeiter" ToRole="Fahrzeug" />
+    <NavigationProperty Name="LegtBuchungAn" Relationship="FuhrparkmanagementModel.LegtBuchungAn" FromRole="Mitarbeiter" ToRole="Buchung" />
+    <Property Name="IstAdmin" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Buchung">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Zweck" Type="String" Nullable="false" />
+    <Property Name="Start" Type="DateTime" Nullable="false" />
+    <Property Name="Ende" Type="DateTime" Nullable="false" />
+    <Property Name="Kilometerplan" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AngelegtVon" Relationship="FuhrparkmanagementModel.LegtBuchungAn" FromRole="Buchung" ToRole="Mitarbeiter" />
+    <Property Name="MitarbeiterId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="MitFahrzeug" Relationship="FuhrparkmanagementModel.BuchungMitFahrzeug" FromRole="Buchung" ToRole="Fahrzeug" />
+    <Property Name="FahrzeugId" Type="Int32" Nullable="true" />
+  </EntityType>
+  <Association Name="HatHauptnutzer">
+    <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="0..1" />
+    <End Type="FuhrparkmanagementModel.Mitarbeiter" Role="Mitarbeiter" Multiplicity="0..1" />
+  </Association>
+  <Association Name="LegtBuchungAn">
+    <End Type="FuhrparkmanagementModel.Mitarbeiter" Role="Mitarbeiter" Multiplicity="1" />
+    <End Type="FuhrparkmanagementModel.Buchung" Role="Buchung" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Mitarbeiter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Buchung">
+        <PropertyRef Name="MitarbeiterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BuchungMitFahrzeug">
+    <End Type="FuhrparkmanagementModel.Buchung" Role="Buchung" Multiplicity="*" />
+    <End Type="FuhrparkmanagementModel.Fahrzeug" Role="Fahrzeug" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Fahrzeug">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Buchung">
+        <PropertyRef Name="FahrzeugId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
